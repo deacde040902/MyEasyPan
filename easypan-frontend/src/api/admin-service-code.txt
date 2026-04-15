@@ -1,0 +1,132 @@
+// UserInfoService 接口需要添加的方法
+public interface UserInfoService extends IService<UserInfo> {
+    // 现有方法...
+    IPage<UserInfo> getUserListPage(Page<UserInfo> page, FileListQueryDTO queryDTO);
+    void changeUserStatus(String userId, Integer status);
+    void changeUserSpace(String userId, Long totalSpace);
+    long countByVipLevel(Integer vipLevel);
+}
+
+// UserInfoServiceImpl 实现
+@Service
+public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
+    // 现有方法...
+    
+    @Override
+    public IPage<UserInfo> getUserListPage(Page<UserInfo> page, FileListQueryDTO queryDTO) {
+        LambdaQueryWrapper<UserInfo> wrapper = new LambdaQueryWrapper<>();
+        if (StringTools.isNotEmpty(queryDTO.getFileName())) {
+            wrapper.like(UserInfo::getNickName, queryDTO.getFileName())
+                  .or()
+                  .like(UserInfo::getEmail, queryDTO.getFileName());
+        }
+        return this.page(page, wrapper);
+    }
+    
+    @Override
+    public void changeUserStatus(String userId, Integer status) {
+        UserInfo user = this.getById(userId);
+        if (user != null) {
+            user.setStatus(status);
+            this.updateById(user);
+        }
+    }
+    
+    @Override
+    public void changeUserSpace(String userId, Long totalSpace) {
+        UserInfo user = this.getById(userId);
+        if (user != null) {
+            user.setTotalSpace(totalSpace);
+            this.updateById(user);
+        }
+    }
+    
+    @Override
+    public long countByVipLevel(Integer vipLevel) {
+        LambdaQueryWrapper<UserInfo> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserInfo::getVipLevel, vipLevel);
+        return this.count(wrapper);
+    }
+}
+
+// SysConfigService 接口
+public interface SysConfigService extends IService<SysConfig> {
+    Map<String, String> getSystemSettings();
+    void saveSystemSettings(SysSettingDto settings);
+}
+
+// SysConfigServiceImpl 实现
+@Service
+public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
+    @Override
+    public Map<String, String> getSystemSettings() {
+        Map<String, String> settings = new HashMap<>();
+        List<SysConfig> configs = this.list();
+        for (SysConfig config : configs) {
+            settings.put(config.getConfigKey(), config.getConfigValue());
+        }
+        // 确保默认值
+        if (!settings.containsKey("systemName")) {
+            settings.put("systemName", "Easy云盘");
+        }
+        if (!settings.containsKey("defaultSpace")) {
+            settings.put("defaultSpace", "5");
+        }
+        if (!settings.containsKey("vipSpace")) {
+            settings.put("vipSpace", "100");
+        }
+        return settings;
+    }
+    
+    @Override
+    public void saveSystemSettings(SysSettingDto settings) {
+        // 保存系统名称
+        saveConfig("systemName", settings.getSystemName());
+        // 保存默认存储空间
+        saveConfig("defaultSpace", settings.getDefaultSpace());
+        // 保存VIP存储空间
+        saveConfig("vipSpace", settings.getVipSpace());
+    }
+    
+    private void saveConfig(String key, String value) {
+        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysConfig::getConfigKey, key);
+        SysConfig config = this.getOne(wrapper);
+        if (config == null) {
+            config = new SysConfig();
+            config.setConfigKey(key);
+            config.setConfigValue(value);
+            this.save(config);
+        } else {
+            config.setConfigValue(value);
+            this.updateById(config);
+        }
+    }
+}
+
+// SysSettingDto 实体类
+public class SysSettingDto {
+    private String systemName;
+    private String defaultSpace;
+    private String vipSpace;
+    
+    // getters and setters
+    public String getSystemName() {
+        return systemName;
+    }
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+    public String getDefaultSpace() {
+        return defaultSpace;
+    }
+    public void setDefaultSpace(String defaultSpace) {
+        this.defaultSpace = defaultSpace;
+    }
+    public String getVipSpace() {
+        return vipSpace;
+    }
+    public void setVipSpace(String vipSpace) {
+        this.vipSpace = vipSpace;
+    }
+}

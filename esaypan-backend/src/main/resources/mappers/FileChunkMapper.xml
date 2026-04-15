@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easypan.mappers.FileChunkMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.easypan.entity.po.FileChunk">
+        <id column="id" property="id" />
+        <result column="upload_id" property="uploadId" />
+        <result column="user_id" property="userId" />
+        <result column="file_md5" property="fileMd5" />
+        <result column="file_name" property="fileName" />
+        <result column="total_size" property="totalSize" />
+        <result column="chunk_size" property="chunkSize" />
+        <result column="total_chunks" property="totalChunks" />
+        <result column="uploaded_chunks" property="uploadedChunks" />
+        <result column="file_pid" property="filePid" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="expire_time" property="expireTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, upload_id, user_id, file_md5, file_name, total_size, chunk_size, total_chunks, uploaded_chunks, file_pid, status, create_time, update_time, expire_time
+    </sql>
+
+</mapper>

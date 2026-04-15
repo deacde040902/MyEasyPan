@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 minutes">
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!-- 彩色日志格式：完全保留你的结构，只加颜色 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,GMT+8} %highlight([%p]) %blue([%c]) %cyan([%M][%L])-> %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 读取 Spring 配置中的日志路径和级别 -->
+    <springProperty scope="context" name="log.path" source="project.folder"/>
+    <springProperty scope="context" name="log.root.level" source="log.root.level"/>
+
+    <!-- 日志文件基础配置 -->
+    <property name="LOG_FOLDER" value="logs"/>
+    <property name="LOG_FILE_NAME" value="easypan.log"/>
+
+    <!-- 文件滚动输出 Appender -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/${LOG_FOLDER}/${LOG_FILE_NAME}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.path}/${LOG_FOLDER}/${LOG_FILE_NAME}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <!-- 按大小+时间分割日志 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>20MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory> <!-- 日志保留30天 -->
+        </rollingPolicy>
+        <encoder>
+            <charset>utf-8</charset>
+            <!-- 文件日志不要颜色，避免乱码 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,GMT+8} [%p][%c][%M][%L]-> %m%n</pattern>
+        </encoder>
+        <append>false</append>
+        <prudent>false</prudent>
+    </appender>
+
+    <!-- 根日志级别 -->
+    <root level="${log.root.level}">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+</configuration>
