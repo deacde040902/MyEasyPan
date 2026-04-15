@@ -1,47 +1,4 @@
 # Easy云盘项目架构
-
-## 项目启动流程
-
-### 前端启动
-1. **进入前端目录**：
-   ```bash
-   cd easypan-frontend
-   ```
-2. **安装依赖**（首次运行）：
-   ```bash
-   npm install
-   ```
-3. **启动开发服务器**：
-   ```bash
-   npm run dev
-   ```
-4. **访问前端**：
-   - 打开浏览器，访问终端输出的本地地址（通常是 `http://localhost:5173`）
-
-### 后端启动
-#### 方法1：使用IDEA启动
-1. 打开 `easypan-backend` 目录
-2. 找到 `EasyPanApplication.java` 启动类
-3. 右键点击并选择 "Run EasyPanApplication"
-
-#### 方法2：使用Maven启动
-1. **进入后端目录**：
-   ```bash
-   cd easypan-backend
-   ```
-2. **启动应用**：
-   ```bash
-   mvn spring-boot:run
-   ```
-3. **访问后端API**：
-   - 后端服务默认运行在 `http://localhost:8080`
-
-## 环境要求
-- **前端**：Node.js 16.x+
-- **后端**：JDK 17+, Maven 3.8+
-- **数据库**：MySQL 8.x
-- **缓存**：Redis 7.x
-
 ## 系统架构
 ```mermaid
 graph TD
@@ -161,6 +118,49 @@ graph TD
 | 后端 | MyBatis-Plus | 3.x |
 | 后端 | MySQL | 8.x |
 | 后端 | Redis | 7.x |
+
+## 项目启动流程
+
+### 前端启动
+1. **进入前端目录**：
+   ```bash
+   cd easypan-frontend
+   ```
+2. **安装依赖**（首次运行）：
+   ```bash
+   npm install
+   ```
+3. **启动开发服务器**：
+   ```bash
+   npm run dev
+   ```
+4. **访问前端**：
+   - 打开浏览器，访问终端输出的本地地址（通常是 `http://localhost:5173`）
+
+### 后端启动
+#### 方法1：使用IDEA启动
+1. 打开 `easypan-backend` 目录
+2. 找到 `EasyPanApplication.java` 启动类
+3. 右键点击并选择 "Run EasyPanApplication"
+
+#### 方法2：使用Maven启动
+1. **进入后端目录**：
+   ```bash
+   cd easypan-backend
+   ```
+2. **启动应用**：
+   ```bash
+   mvn spring-boot:run
+   ```
+3. **访问后端API**：
+   - 后端服务默认运行在 `http://localhost:8080`
+
+## 环境要求
+- **前端**：Node.js 16.x+
+- **后端**：JDK 17+, Maven 3.8+
+- **数据库**：MySQL 8.x
+- **缓存**：Redis 7.x
+
 
 ## 项目运行截图
 登录界面
