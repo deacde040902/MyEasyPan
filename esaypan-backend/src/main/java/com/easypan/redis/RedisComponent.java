@@ -6,7 +6,7 @@ import com.easypan.entity.dto.TokenUserInfoDto;
 import com.easypan.utils.StringTools;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 

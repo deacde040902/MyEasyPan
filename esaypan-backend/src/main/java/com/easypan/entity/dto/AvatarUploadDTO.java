@@ -3,7 +3,7 @@ package com.easypan.entity.dto;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 头像上传 DTO

@@ -6,11 +6,12 @@ import com.easypan.mappers.FileChunkMapper;
 import com.easypan.service.FileChunkService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easypan.service.FileInfoService;
+import com.easypan.rag.service.DocIndexService;
 import com.easypan.utils.StringTools;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -25,10 +26,13 @@ import java.io.IOException;
 @Service
 public class FileChunkServiceImpl extends ServiceImpl<FileChunkMapper, FileChunk> implements FileChunkService {
 
-    private static final String CHUNK_BASE_PATH = "E:/Workspace-java/easypan/esaypan-backend/file/chunks/files/";
+    private static final String CHUNK_BASE_PATH = "C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/file/chunks/files/";
 
     @Resource
     private FileInfoService fileInfoService;
+
+    @Resource
+    private DocIndexService docIndexService;
 
     /**
      * 初始化分片上传（修复时间类型）
@@ -159,6 +163,11 @@ public class FileChunkServiceImpl extends ServiceImpl<FileChunkMapper, FileChunk
         fileInfo.setLastOpTime(new Date());
         fileInfoService.save(fileInfo);
 
+        // 文档类文件上传完成后异步建立问答索引（失败不影响上传主流程）
+        if (docIndexService.isSupportedSuffix(fileSuffix)) {
+            docIndexService.indexFileAsync(userId, fileInfo.getFileId());
+        }
+
         fileChunk.setStatus((byte) 1);
         fileChunk.setUpdateTime(LocalDateTime.now());
         this.updateById(fileChunk);
@@ -219,7 +228,7 @@ public class FileChunkServiceImpl extends ServiceImpl<FileChunkMapper, FileChunk
             }
         });
 
-        String finalFolderPath = "E:/Workspace-java/easypan/esaypan-backend/file/chunks/files/";
+        String finalFolderPath = "C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/file/chunks/files/";
         File finalFolder = new File(finalFolderPath);
         if (!finalFolder.exists()) {
             finalFolder.mkdirs();

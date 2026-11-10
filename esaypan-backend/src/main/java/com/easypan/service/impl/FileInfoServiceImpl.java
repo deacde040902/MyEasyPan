@@ -11,6 +11,7 @@ import com.easypan.entity.po.FileInfo;
 import com.easypan.entity.vo.FileInfoVO;
 import com.easypan.exception.BusinessException;
 import com.easypan.mappers.FileInfoMapper;
+import com.easypan.rag.service.DocIndexService;
 import com.easypan.redis.RedisUtils;
 import com.easypan.service.FileInfoService;
 import com.easypan.utils.StringTools;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -41,8 +42,11 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
     @Resource
     private RedisUtils redisUtils;
 
+    @Resource
+    private DocIndexService docIndexService;
 
-    @Value("${easypan.file.base-path:E:/Workspace-java/easypan/easypan-backend/file}")
+
+    @Value("${easypan.file.base-path:C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/file}")
     private String fileBasePath;
 
     // ========== 原有方法保留，仅修正错误 & 补全缺失方法 ==========
@@ -376,6 +380,8 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         }
         // 物理删除文件
         if (Constants.ZERO.equals(file.getIsFolder())) {
+            // 清理问答索引（向量 + 切片）
+            docIndexService.removeFileIndex(fileId);
             String filePath = fileBasePath + File.separator + file.getFileUrl();
             File physicalFile = new File(filePath);
             if (physicalFile.exists()) {
@@ -517,6 +523,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         List<FileInfo> childFiles = this.list(wrapper);
         for (FileInfo child : childFiles) {
             if (Constants.ZERO.equals(child.getIsFolder())) {
+                docIndexService.removeFileIndex(child.getFileId());
                 String filePath = fileBasePath + File.separator + child.getFileUrl();
                 File physicalFile = new File(filePath);
                 if (physicalFile.exists()) {

@@ -7,7 +7,7 @@ import com.easypan.service.CheckCodeService;
 import com.wf.captcha.ArithmeticCaptcha;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

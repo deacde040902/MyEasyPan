@@ -36,3 +36,6 @@ Thumbs.db
 # 上传的文件
 avatar/
 file/
+
+# WorkBuddy 浼氳瘽鏁版嵁
+.workbuddy/

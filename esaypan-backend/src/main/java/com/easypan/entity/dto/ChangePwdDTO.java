@@ -2,8 +2,8 @@ package com.easypan.entity.dto;
 
 import com.easypan.entity.constants.Constants;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public class ChangePwdDTO {
     @NotBlank(message = "旧密码不能为空")

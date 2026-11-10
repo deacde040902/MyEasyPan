@@ -49,21 +49,34 @@ spring:
             fallback: false                     # 禁用SocketFactory降级
         # debug: true                             # 关闭调试日志
 
-  # Redis配置
-  redis:
-    database: 0                                 # 数据库索引
-    host: 127.0.0.1                             # 地址
-    port: 6379                                  # 端口
-    password: ""                                # Redis密码（无密码为空）
-    jedis:
-      pool:
-        max-active: 20                          # 最大活跃连接数
-        max-wait: -1ms                          # 最大等待时间
-        max-idle: 10                            # 最大空闲连接数
-        min-idle: 0                             # 最小空闲连接数
-    timeout: 2000ms                             # 连接超时时间
+  # Spring AI：模型 Bean 在 AiConfig 中手动装配（读 rag.properties），
+  # 这里关闭 starter 的 OpenAI 自动装配，避免要求 spring.ai.openai.api-key
+  ai:
+    model:
+      chat: none
+      embedding: none
+      image: none
+      audio:
+        speech: none
+        transcription: none
+      moderation: none
 
-  # 文件上传配置
+  # Redis配置
+  data:
+    redis:
+      database: 0                                 # 数据库索引
+      host: 127.0.0.1                             # 地址
+      port: 6379                                  # 端口
+      password: ""                                # Redis密码（无密码为空）
+      jedis:
+        pool:
+          max-active: 20                          # 最大活跃连接数
+          max-wait: -1ms                          # 最大等待时间
+          max-idle: 10                            # 最大空闲连接数
+          min-idle: 0                             # 最小空闲连接数
+      timeout: 2000ms                             # 连接超时时间
+
+    # 文件上传配置
   servlet:
     multipart:
       max-file-size: 10GB      # 单文件最大大小（VIP用户）
@@ -71,9 +84,9 @@ spring:
 
 easypan:
   file:
-    base-path: E:/Workspace-java/easypan/esaypan-backend/file        # 文件存储根路径
+    base-path: C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/file        # 文件存储根路径
   avatar:
-    base-path: E:/Workspace-java/easypan/esaypan-backend/avatar      # 头像存储路径
+    base-path: C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/avatar      # 头像存储路径
   redis:
     expire:
       download-code: 3600      # 下载码有效期（1小时）
@@ -94,7 +107,7 @@ mybatis-plus:
 
 # 项目自定义配置
 project:
-  folder: E:/Workspace-java/easypan/esaypan-backend/            # 项目根路径
+  folder: C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/            # 项目根路径
 
 
 # 日志配置（匹配目标风格，精简冗余）

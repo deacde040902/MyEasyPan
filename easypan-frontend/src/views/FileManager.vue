@@ -57,6 +57,11 @@
             <span>回收站</span>
           </el-menu-item>
 
+          <el-menu-item index="qa">
+            <el-icon><ChatDotRound /></el-icon>
+            <span>AI 文件对话</span>
+          </el-menu-item>
+
           <el-menu-item index="/vip">
             <el-icon><Present /></el-icon>
             <span>会员中心</span>
@@ -177,7 +182,7 @@
                 {{ formatDate(row.lastOpTime) }}
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="350">
+            <el-table-column label="操作" width="390">
               <template #default="{ row }">
                 <div class="file-actions">
                   <el-button link @click="handleFileDetail(row)">详情</el-button>
@@ -185,6 +190,7 @@
                   <el-button link @click="handleRename(row)">重命名</el-button>
                   <el-button link @click="handleDelete(row)">删除</el-button>
                   <el-button link type="primary" @click="handleShare(row)">分享</el-button>
+                  <el-button v-if="row.isFolder !== 1" link type="success" @click="handleFileQa(row)">问答</el-button>
                 </div>
               </template>
             </el-table-column>
@@ -357,9 +363,11 @@ import {
   Download,
   Edit,
   Close,
-  Loading
+  Loading,
+  ChatDotRound
 } from '@element-plus/icons-vue'
 import { getUserInfo, getUseSpace, logout } from '@/api/user'
+import { indexFile } from '@/api/qa'
 import {
   loadDataList,
   createFolder,
@@ -829,13 +837,29 @@ const handleMenuSelect = (index: string) => {
     return
   }
 
-  // 4. 其他菜单跳转（分享、回收站、会员中心）
-  if (index === 'share') {
+  // 4. 其他菜单跳转（文件问答、分享、回收站、会员中心）
+  if (index === 'qa') {
+    router.push('/qa')
+  } else if (index === 'share') {
     router.push('/share')
   } else if (index === 'recycle') {
     router.push('/recycle')
   } else if (index === '/vip') {
     router.push('/vip')
+  }
+}
+
+// 为文件建立问答索引
+const handleFileQa = async (row: FileInfo) => {
+  if (row.isFolder === 1) {
+    ElMessage.warning('文件夹不支持建立问答索引')
+    return
+  }
+  try {
+    const res: any = await indexFile(row.fileId)
+    ElMessage.success(res.data || '索引完成')
+  } catch {
+    // 错误信息由拦截器统一提示
   }
 }
 

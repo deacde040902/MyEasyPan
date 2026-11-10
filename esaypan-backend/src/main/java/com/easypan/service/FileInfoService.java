@@ -6,7 +6,7 @@ import com.easypan.entity.dto.FileListQueryDTO;
 import com.easypan.entity.po.FileInfo;
 import com.easypan.entity.vo.FileInfoVO;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

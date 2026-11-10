@@ -7,7 +7,7 @@ import com.easypan.entity.dto.*;
 import com.easypan.entity.po.UserInfo;
 import com.easypan.entity.vo.VipStatusVO;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**

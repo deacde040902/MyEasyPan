@@ -37,3 +37,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### RAG 密钥配置（禁止提交）###
+src/main/resources/rag.properties

@@ -81,6 +81,15 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/qa',
+    name: 'Qa',
+    component: () => import('@/views/Qa.vue'),
+    meta: {
+      title: 'AI 文件对话 - Easy云盘',
+      requiresAuth: true
+    }
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: Profile,

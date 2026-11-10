@@ -8,7 +8,7 @@ import com.easypan.service.FileChunkService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 文件分片上传记录表 前端控制器（完整接口版）

@@ -13,6 +13,7 @@
         </div>
         <div class="actions">
           <el-button type="primary" @click="goToFileManager">进入文件管理</el-button>
+          <el-button type="success" @click="goToQa">AI 文件对话</el-button>
           <el-button @click="handleLogout">退出登录</el-button>
         </div>
       </div>
@@ -54,6 +55,11 @@ const fetchUserInfo = async () => {
 // 进入文件管理
 const goToFileManager = () => {
   router.push('/files')
+}
+
+// 进入文件问答
+const goToQa = () => {
+  router.push('/qa')
 }
 
 const handleLogout = async () => {

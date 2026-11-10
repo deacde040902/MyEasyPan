@@ -32,8 +32,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Resource
     private AdminConfig adminConfig;
 
-    private String avatarBasePath = "E:/Workspace-java/easypan/esaypan-backend/avatar";
+    private String avatarBasePath = "C:/Users/ivan/IdeaProjects/MyEasyPan/esaypan-backend/avatar";
 
     /**
      * 根据邮箱查询用户
